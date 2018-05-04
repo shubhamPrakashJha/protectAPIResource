@@ -15,7 +15,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 app = Flask(__name__)
 
-
+@HTTPBasicAuth.verify_password()
 def verify_password(username, password):
 	# return "true if username and password matches else flase"
 	user = session.query(User).filter_by(username=username).one()
