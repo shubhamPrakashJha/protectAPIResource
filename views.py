@@ -17,7 +17,13 @@ app = Flask(__name__)
 
 
 def verify_password(username, password):
-	return "true if username and password matches else flase"
+	# return "true if username and password matches else flase"
+	user = session.query(User).filter_by(username=username).one()
+	if not user or not user.verify_password(password):
+		return False
+	g.user = user
+	return True
+
 
 @app.route('/users', methods=['POST'])
 def new_user():
