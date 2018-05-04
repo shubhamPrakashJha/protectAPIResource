@@ -16,6 +16,9 @@ session = DBSession()
 app = Flask(__name__)
 
 
+def verify_password(username, password):
+	return "true if username and password matches else flase"
+
 @app.route('/users', methods=['POST'])
 def new_user():
 	username = request.json.get('username')
