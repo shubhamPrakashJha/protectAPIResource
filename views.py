@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 
 from flask_httpauth import HTTPBasicAuth
+auth = HTTPBasicAuth()
 
 auth = HTTPBasicAuth()
 
@@ -15,7 +16,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 app = Flask(__name__)
 
-@HTTPBasicAuth.verify_password()
+@auth.verify_password
 def verify_password(username, password):
 	# return "true if username and password matches else flase"
 	user = session.query(User).filter_by(username=username).one()
@@ -57,7 +58,7 @@ def get_user(id):
 
 
 @app.route('api/resource')
-@HTTPBasicAuth.login_required()
+@auth.login_required
 def get_resource():
 	return jsonify(
 		{"data": "hello %s" %g.user.username}
